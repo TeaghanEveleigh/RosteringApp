@@ -1,0 +1,51 @@
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+// Person schema
+const PersonSchema = new Schema({
+  name: String,
+  surname: String,
+  restrictions: {
+    type: String,
+    required: false
+  }
+});
+
+// Group schema
+const GroupSchema = new Schema({
+  people: [PersonSchema]
+});
+
+// Task schema
+const TaskSchema = new Schema({
+  specifications: String,
+  peopleRequired: Number
+});
+
+// Event schema
+const EventSchema = new Schema({
+  tasks: [TaskSchema]
+});
+
+// Profile schema
+const ProfileSchema = new Schema({
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  people: [PersonSchema],
+  events: [EventSchema],
+  tasks: [TaskSchema]
+});
+
+// Models
+const Person = mongoose.model('Person', PersonSchema);
+const Group = mongoose.model('Group', GroupSchema);
+const Task = mongoose.model('Task', TaskSchema);
+const Event = mongoose.model('Event', EventSchema);
+const Profile = mongoose.model('Profile', ProfileSchema);
